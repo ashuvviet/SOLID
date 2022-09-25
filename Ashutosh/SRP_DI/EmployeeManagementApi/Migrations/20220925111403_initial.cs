@@ -14,6 +14,7 @@ namespace EmployeeManagementApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BasicPay = table.Column<int>(type: "int", nullable: false),
                     HRA = table.Column<int>(type: "int", nullable: false),
                     Bonus = table.Column<int>(type: "int", nullable: false),
