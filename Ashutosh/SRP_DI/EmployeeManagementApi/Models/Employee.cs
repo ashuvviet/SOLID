@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementApi.Models
 {
-    public class Employee
+    public abstract class Employee
     {
         /// <value>The id.</value>
         [Key]
@@ -18,31 +18,36 @@ namespace EmployeeManagementApi.Models
 
         public string LastName { get; set; }
 
-        public Payment Salary { get; set; }
-        
-        public Insurance Insurance { get; set; }
-    }
-
-    public class Payment
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Email { get; set; }
 
         public int BasicPay { get; set; }
 
         public int HRA { get; set; }
 
         public int Bonus { get; set; }
+
+        public string InsuranceType { get; set; }
+
+        public bool IsFullTimeEmployee { get; set; }
+
+        public int GetSalary()
+        {
+            if (IsFullTimeEmployee)
+            {
+                return BasicPay + HRA + Bonus;
+            }
+            else
+            {
+                return BasicPay + HRA;
+            }
+        }
     }
 
-    public class Insurance
+    public class FullTimeEmployee : Employee
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+    }
 
-        public string Name { get; set; }
-        public int Amount { get; set; }
+    public class PartTimeEmployee : Employee
+    {
     }
 }

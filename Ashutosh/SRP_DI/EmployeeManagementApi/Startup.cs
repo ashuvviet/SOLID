@@ -39,14 +39,12 @@ namespace EmployeeManagementApi
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
 
-            services.AddDbContext<EmployeeDBContext>(options =>
-    options.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\_Ashutosh\Trainings\SOLID\EmployeeManagementApi\Employee.mdf;Integrated Security=True;Connect Timeout=30"));
+            services.AddDbContext<EmployeeDBContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EmployeeDBContext applicationDbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            applicationDbContext.Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

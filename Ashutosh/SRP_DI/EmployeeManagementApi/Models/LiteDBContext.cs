@@ -11,31 +11,14 @@ namespace EmployeeManagementApi.Models
         private static LiteDatabase _context;
         private static ILiteCollection<Employee> collection;
         private string nameOfCollection = "Employees";
-        private static LiteDBContext instance;
 
-        //public LiteDBContext(IOptions<DbConfig> configs)
-        //{
-        //    try
-        //    {
-        //        if (_context == null)
-        //        {
-        //            _context = new LiteDatabase($"Filename={configs.Value.PathToDB};Connection=Direct");
-        //            collection = _context.GetCollection<Employee>(nameOfCollection);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Can find or create LiteDb database.", ex);
-        //    }
-        //}
-
-        private LiteDBContext()
+        public LiteDBContext(IOptions<DbConfig> configs)
         {
             try
             {
                 if (_context == null)
                 {
-                    _context = new LiteDatabase($"Filename=C:\\_Ashutosh\\Trainings\\SOLID\\EmployeeManagementApi\\employee.db;Connection=Direct");
+                    _context = new LiteDatabase($"Filename={configs.Value.PathToDB};Connection=Direct");
                     collection = _context.GetCollection<Employee>(nameOfCollection);
                 }
             }
@@ -44,20 +27,7 @@ namespace EmployeeManagementApi.Models
                 throw new Exception("Can find or create LiteDb database.", ex);
             }
         }
-
-        public static LiteDBContext Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new LiteDBContext();
-                }
-
-                return instance;
-            }
-        }
-
+       
         public BsonValue InsertEmployee(Employee employee)
         {
             collection = _context.GetCollection<Employee>(nameOfCollection);
