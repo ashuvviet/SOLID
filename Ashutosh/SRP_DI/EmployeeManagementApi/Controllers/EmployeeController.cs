@@ -53,26 +53,30 @@ namespace EmployeeManagementApi.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertEmployee(EmployeeDto employeeDto)
         {
-            if(string.IsNullOrEmpty(employeeDto.FirstName))
+            if(string.IsNullOrEmpty(employeeDto.FirstName) || string.IsNullOrEmpty(employeeDto.LastName))
             {
                 throw new InvalidOperationException();
             }
 
+            if (string.IsNullOrEmpty(employeeDto.Email) || !employeeDto.Email.Contains("@"))
+            {
+                throw new InvalidOperationException();
+            }
+
+            var result = false;
             using (var connection = new SqlConnection(this.dbOptions.Value.PathToDB))
             {
                 connection.Open();
                 var employeeQuery = "Insert into Employees (FirstName,LastName,Email,BasicPay,HRA,Bonus,IsFullTimeEmployee, EmpType) VALUES (@1,@2,@3,@4,@5,@6, @7, @8)";
 
-                var result = ExecuteQueryWithNoResult(connection, employeeQuery, employeeDto.FirstName, employeeDto.LastName, employeeDto.Email,1,1,1,false,1);
-
-                return Ok(result);
+                result = ExecuteQueryWithNoResult(connection, employeeQuery, employeeDto.FirstName, employeeDto.LastName, employeeDto.Email,1,1,1,false,1);
             }
 
             // send mail to finance / insurance team
             var mailService = new SMTPMailService();
-            await mailService.SendMail("fiance@danaher.com", "Welcome", "Welcome To Danaher");
+            await mailService.SendMail("finance@danaher.com", "Welcome", "Welcome To Danaher");
 
-            //return Ok();
+            return Ok(result);
         }
 
         private bool ExecuteQueryWithNoResult(SqlConnection connection, string query, params object[] paramList)
