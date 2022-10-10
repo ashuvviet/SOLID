@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySql", "MySql\MySql.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{74D5F8D9-3BD3-474B-A9E4-44FB5662022A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Employee.Api.Tests", "Employee.Api.Tests\Employee.Api.Tests.csproj", "{743F951B-739E-4DEF-9C42-952E8B217654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Employee.Api.Tests", "Employee.Api.Tests\Employee.Api.Tests.csproj", "{743F951B-739E-4DEF-9C42-952E8B217654}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

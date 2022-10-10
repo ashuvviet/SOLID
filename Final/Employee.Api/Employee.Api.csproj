@@ -20,9 +20,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\AWS.SES\AWS.SES.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\MySql\MySql.csproj" />
-    <ProjectReference Include="..\SMTPMail\SMTPMail.csproj" />
+    <ProjectReference Include="..\LiteDbServer\LiteDbServer.csproj" />
   </ItemGroup>
   
   <ItemGroup>
