@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EmployeeManagementApi.Controllers
 {
@@ -77,6 +78,23 @@ namespace EmployeeManagementApi.Controllers
             await mailService.SendMail("finance@danaher.com", "Welcome", "Welcome To Danaher");
 
             return Ok(result);
+        }
+
+        private bool ExecuteMethod(SqlConnection connection, string query, params object[] paramList)
+        {
+            var cmd = new SqlCommand(query, connection);
+
+            var paramCount = 0;
+            foreach (var param in paramList)
+            {
+                var myParam = new SqlParameter(string.Format("@{0}", ++paramCount), SqlDbType.VarChar)
+                {
+                    Value = param
+                };
+                cmd.Parameters.Add(myParam);
+            }
+
+            return cmd.ExecuteNonQuery() > 0;
         }
 
         private bool ExecuteQueryWithNoResult(SqlConnection connection, string query, params object[] paramList)
