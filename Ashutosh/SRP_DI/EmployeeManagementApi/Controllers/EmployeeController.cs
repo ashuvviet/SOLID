@@ -69,7 +69,7 @@ namespace EmployeeManagementApi.Controllers
                 connection.Open();
                 var employeeQuery = "Insert into Employees (FirstName,LastName,Email,BasicPay,HRA,Bonus,IsFullTimeEmployee, EmpType) VALUES (@1,@2,@3,@4,@5,@6, @7, @8)";
 
-                result = ExecuteQueryWithNoResult(connection, employeeQuery, employeeDto.FirstName, employeeDto.LastName, employeeDto.Email,1,1,1,false,1);
+                result = ExecuteQueryWithNoResult(connection, employeeQuery, employeeDto.FirstName, employeeDto.LastName, employeeDto.Email,1,1,1,false,1).Result;
             }
 
             // send mail to finance / insurance team
@@ -79,24 +79,7 @@ namespace EmployeeManagementApi.Controllers
             return Ok(result);
         }
 
-        private bool ExecuteMethod(SqlConnection connection, string query, params object[] paramList)
-        {
-            var cmd = new SqlCommand(query, connection);
-
-            var paramCount = 0;
-            foreach (var param in paramList)
-            {
-                var myParam = new SqlParameter(string.Format("@{0}", ++paramCount), SqlDbType.VarChar)
-                {
-                    Value = param
-                };
-                cmd.Parameters.Add(myParam);
-            }
-
-            return cmd.ExecuteNonQuery() > 0;
-        }
-
-        private bool ExecuteQueryWithNoResult(SqlConnection connection, string query, params object[] paramList)
+        private async Task<bool> ExecuteQueryWithNoResult(SqlConnection connection, string query, params object[] paramList)
         {
             var cmd = new SqlCommand(query, connection);
 
@@ -111,7 +94,8 @@ namespace EmployeeManagementApi.Controllers
             }
 
             // return a Sql data reader that returns number of impacted lines
-            return cmd.ExecuteNonQuery() > 0;
+            var result = cmd.ExecuteNonQuery() > 0;
+            return await Task.FromResult(result);
         }
     }
 
